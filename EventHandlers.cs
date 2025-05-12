@@ -1,0 +1,135 @@
+﻿using MEC;
+using UnityEngine;
+using PlayerRoles;
+using System.Linq;
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.API.Extensions;
+using ProjectSCRAMBLE.Extensions;
+using ProjectMER.Features.Objects;
+using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp096;
+using Scp96Event = Exiled.Events.Handlers.Scp096;
+using PlayerEvent = Exiled.Events.Handlers.Player;
+
+namespace ProjectSCRAMBLE
+{
+    public class EventHandlers
+    {
+        public void Sucsribe()
+        {
+            PlayerEvent.Verified += OnVerified;
+            PlayerEvent.Spawned += OnChangedRole;
+            PlayerEvent.ReceivingEffect += OnChangeEffect;
+            
+            Scp96Event.AddingTarget += OnAddingTarget;
+        }
+
+        public void UnSucsribe()
+        {
+            PlayerEvent.Verified -= OnVerified;
+            PlayerEvent.Spawned -= OnChangedRole;
+            PlayerEvent.ReceivingEffect -= OnChangeEffect;
+
+            Scp96Event.AddingTarget -= OnAddingTarget;
+        }
+
+        private void OnChangedRole(SpawnedEventArgs ev)
+        {
+            if (ev.OldRole == RoleTypeId.Scp096 && ev.Player.Role != RoleTypeId.Scp096)
+            {
+                ev.Player.RemoveCensor();
+                Log.Debug($"Scp96:{ev.Player.Nickname} removed censor");
+            }
+            else if (ev.Player.Role == RoleTypeId.Scp096)
+            {
+                Timing.CallDelayed(1, ev.Player.AddCensor);
+                Log.Debug($"Scp96:{ev.Player.Nickname} added censor");
+            }
+        }
+
+        public void OnAddingTarget(AddingTargetEventArgs ev)
+        {
+            if (!ev.IsLooking || !ProjectSCRAMBLE.ActiveScramblePlayers.ContainsKey(ev.Target))
+                return;
+
+            if (!Plugin.Instance.Config.ScrambleCharge)
+            {
+                ev.IsAllowed = false;
+                return;
+            }
+
+            ushort serial = 0;
+            foreach (var key in ev.Target.Inventory.UserInventory.Items.Keys)
+            {
+                if (ProjectSCRAMBLE.SCRAMBLE.TrackedSerials.Contains(key))
+                {
+                    serial = key;
+                    break;
+                }
+            }
+
+            if (serial == 0)
+            {
+                string playerSerials = string.Join(", ", ev.Target.Inventory.UserInventory.Items.Keys.Select(k => k.ToString()));
+                string trackedSerials = string.Join(", ", ProjectSCRAMBLE.SCRAMBLE.TrackedSerials.Select(s => s.ToString()));
+                Log.Debug
+                    ($"""
+                    [SCRAMBLE ERROR]
+                    Player: {ev.Target.Nickname} ({ev.Target.UserId})
+                    Reason: No matching SCRAMBLE serial found.
+                    Player Serial Keys: [{playerSerials}]
+                    Tracked Serial Keys: [{trackedSerials}]
+                    """);
+                ev.IsAllowed = false;
+                return;
+            }
+
+            if (!ProjectSCRAMBLE.ScrambleCharges.TryGetValue(serial, out float charge))
+            {
+                ProjectSCRAMBLE.ScrambleCharges[serial] = 100f;
+                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", Methods.FormatCharge(charge)));
+                ev.IsAllowed = false;
+                return;
+            }
+
+            if (charge <= 0f)
+            {
+                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.OffCharge);
+                ev.Target.DeObfuscateScp96s();
+                return;
+            }
+            else
+            {
+                ProjectSCRAMBLE.ScrambleCharges[serial] -= Time.deltaTime * Plugin.Instance.Config.ChargeUsageMultiplayer;
+                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", Methods.FormatCharge(charge)));
+            }
+
+            ev.IsAllowed = false;
+        }
+
+        private void OnChangeEffect(ReceivingEffectEventArgs ev)
+        {
+            if (!ProjectSCRAMBLE.ActiveScramblePlayers.ContainsKey(ev.Player))
+                return;
+
+            if (ev.Effect.GetEffectType() != EffectType.Scp1344)
+                return;
+            
+            if (!ev.Effect.IsEnabled)
+                return;
+
+            ev.Player.DeObfuscateScp96s();
+            ev.Player.RemoveSCRAMBLEHint();
+            Log.Debug("Player wear-off Project SCRAMBLE");
+        }
+
+        public void OnVerified(VerifiedEventArgs ev)
+        {
+            foreach (SchematicObject schmt in PlayerExtensions.Scp96sCencors.Values)
+            {
+                ev.Player.DestroySchematic(schmt);
+            }
+        }
+    }
+}
