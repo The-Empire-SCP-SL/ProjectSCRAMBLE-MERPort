@@ -1,10 +1,10 @@
 ﻿using MEC;
 using UnityEngine;
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using ProjectSCRAMBLE.Extensions;
 using System.Collections.Generic;
 using ProjectMER.Features.Objects;
-using Exiled.API.Enums;
 
 namespace ProjectSCRAMBLE
 {
@@ -20,7 +20,7 @@ namespace ProjectSCRAMBLE
             Timing.RunCoroutine(TrackHead(Censor.transform, Head));
         }
 
-        public static IEnumerator<float> TrackHead(Transform censor, Transform head)
+        private static IEnumerator<float> TrackHead(Transform censor, Transform head)
         {
             float syncInterval = Plugin.Instance.Config.AttachToHeadsyncInterval;
             while (censor != null && head != null)
@@ -35,10 +35,14 @@ namespace ProjectSCRAMBLE
         {
             foreach (Player normalply in Player.List)
             {
-                if (ProjectSCRAMBLE.ActiveScramblePlayers.ContainsKey(normalply))
+                if (ProjectSCRAMBLE.ActiveScramblePlayers.ContainsKey(normalply)) 
+                {
                     ProjectSCRAMBLE.ActiveScramblePlayers[normalply].Add(SchematicOwner);
+                }
                 else
+                {
                     normalply.DestroySchematic(Schematic);
+                }
             }
         }
 
@@ -46,7 +50,7 @@ namespace ProjectSCRAMBLE
         {
             Timing.CallDelayed(1f, () => 
             {
-                player.SendFakeEffect(EffectType.Scp1344, 0);
+                player.SendFakeEffect(EffectType.Scp1344, 0); 
                 player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
             });
         }

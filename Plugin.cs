@@ -24,9 +24,10 @@ namespace ProjectSCRAMBLE
         {
             Instance = this;
             eventHandlers = new EventHandlers();
-            Config.ProjectSCRAMBLE.Register();
 
+            Config.ProjectSCRAMBLE.Register();
             eventHandlers.Sucsribe();
+
             base.OnEnabled();
         }
 

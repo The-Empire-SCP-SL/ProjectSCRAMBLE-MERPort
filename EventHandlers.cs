@@ -1,5 +1,4 @@
-﻿using MEC;
-using UnityEngine;
+﻿using UnityEngine;
 using PlayerRoles;
 using System.Linq;
 using Exiled.API.Enums;
@@ -36,6 +35,9 @@ namespace ProjectSCRAMBLE
 
         private void OnChangedRole(SpawnedEventArgs ev)
         {
+            if (ProjectSCRAMBLE.SCRAMBLE == null)
+                return;
+
             if (ev.OldRole == RoleTypeId.Scp096 && ev.Player.Role != RoleTypeId.Scp096)
             {
                 ev.Player.RemoveCensor();
@@ -43,7 +45,7 @@ namespace ProjectSCRAMBLE
             }
             else if (ev.Player.Role == RoleTypeId.Scp096)
             {
-                Timing.CallDelayed(1, ev.Player.AddCensor);
+                ev.Player.AddCensor();
                 Log.Debug($"Scp96:{ev.Player.Nickname} added censor");
             }
         }

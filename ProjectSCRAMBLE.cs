@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Enums;
 using CustomPlayerEffects;
 using Exiled.API.Features;
+using YamlDotNet.Serialization;
 using Exiled.API.Features.Spawn;
 using ProjectSCRAMBLE.Extensions;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace ProjectSCRAMBLE
 
         public static Dictionary<Player, List<Player>> ActiveScramblePlayers = [];
 
-        public static ProjectSCRAMBLE SCRAMBLE;
+        internal static ProjectSCRAMBLE SCRAMBLE;
 
         public bool CanWearOff { get; set; } = true;
 
@@ -30,6 +31,7 @@ namespace ProjectSCRAMBLE
 
         public override string Name { get; set; } = "Project SCRAMBLE";
 
+        [YamlIgnore]
         public override ItemType Type { get; set; } = ItemType.SCP1344;
 
         public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties();

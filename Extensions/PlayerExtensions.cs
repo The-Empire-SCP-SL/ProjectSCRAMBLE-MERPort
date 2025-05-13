@@ -135,7 +135,7 @@ namespace ProjectSCRAMBLE.Extensions
             CharacterModel model = fpc.FpcModule.CharacterModelInstance;
             if (model is not Scp096CharacterModel anima)
             {
-                Log.Debug("This is not a Scp096 role.");
+                Log.Debug("This 96 role doesnt have Scp096CharacterModel.");
                 return null;
             }
 
@@ -146,7 +146,7 @@ namespace ProjectSCRAMBLE.Extensions
         {
             foreach (NetworkIdentity networkIdentity in schematic.NetworkIdentities)
             {
-                player.SpawnNetworkIdentity(networkIdentity);
+                Server.SendSpawnMessage.Invoke(null, [networkIdentity, player.Connection]);
             }
         }
 
@@ -154,21 +154,11 @@ namespace ProjectSCRAMBLE.Extensions
         {
             foreach (NetworkIdentity networkIdentity in schematic.NetworkIdentities)
             {
-                player.DestroyNetworkIdentity(networkIdentity);
+                player.Connection.Send(new ObjectDestroyMessage
+                {
+                    netId = networkIdentity.netId
+                });
             }
-        }
-
-        public static void SpawnNetworkIdentity(this Player player, NetworkIdentity networkIdentity)
-        {
-            Server.SendSpawnMessage.Invoke(null, [networkIdentity, player.Connection]);
-        }
-
-        public static void DestroyNetworkIdentity(this Player player, NetworkIdentity networkIdentity)
-        {
-            player.Connection.Send(new ObjectDestroyMessage
-            {
-                netId = networkIdentity.netId
-            });
         }
 
         public static void SendFakeEffect(this Player effectOwner, EffectType effect, byte intensity)
@@ -194,7 +184,7 @@ namespace ProjectSCRAMBLE.Extensions
             });
         }
 
-        public static int GetEffectIndex(this PlayerEffectsController controller, StatusEffectBase effect)
+        private static int GetEffectIndex(this PlayerEffectsController controller, StatusEffectBase effect)
         {
             for (int i = 0; i < controller.EffectsLength; i++)
             {
