@@ -24,7 +24,7 @@ namespace ProjectSCRAMBLE
         [Description("Attach to head or Directl attach to player")]
         public bool AttachCensorToHead { get; set; } = true;
 
-        [Description("0.1 is good 0.01 better , 0.001 greater")]
+        [Description("0.1 is okey, 0.01 better/good , 0.001 greater")]
         public float AttachToHeadsyncInterval { get; set; } = 0.01f;
 
         [Description("Censor schematic name")]
