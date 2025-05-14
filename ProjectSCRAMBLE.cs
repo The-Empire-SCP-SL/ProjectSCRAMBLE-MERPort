@@ -1,6 +1,4 @@
-﻿using Exiled.API.Enums;
-using CustomPlayerEffects;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 using YamlDotNet.Serialization;
 using Exiled.API.Features.Spawn;
 using ProjectSCRAMBLE.Extensions;
@@ -10,7 +8,6 @@ using Exiled.Events.EventArgs.Scp1344;
 using Exiled.CustomItems.API.Features;
 using InventorySystem.Items.Usables.Scp1344;
 using Scp1344event = Exiled.Events.Handlers.Scp1344;
-using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.Wearables;
 
 namespace ProjectSCRAMBLE
 {
@@ -53,16 +50,12 @@ namespace ProjectSCRAMBLE
         protected override void SubscribeEvents()
         {
             Scp1344event.ChangedStatus += OnChangedStatus;
-            Scp1344event.ChangingStatus += OnChangingStatus;
-
             base.SubscribeEvents();
         }
 
         protected override void UnsubscribeEvents()
         {
             Scp1344event.ChangedStatus -= OnChangedStatus;
-            Scp1344event.ChangingStatus -= OnChangingStatus;
-
             base.UnsubscribeEvents();
         }
 
@@ -107,27 +100,6 @@ namespace ProjectSCRAMBLE
             ActiveScramblePlayers[ev.Player] = [];
             ev.Player.ObfuscateScp96s();
             Log.Debug($"{ev.Player.Nickname}: Activated Project SCRAMBLE");
-        }
-
-        private void OnChangingStatus(ChangingStatusEventArgs ev)
-        {
-            if (!Check(ev.Item))
-                return;
-
-            if (!CanWearOff || ev.Scp1344StatusNew != Scp1344Status.Deactivating)
-                return;
-
-            ev.IsAllowed = false;
-
-            ev.Scp1344.Base.Owner.DisableWearables(WearableElements.Scp1344Goggles);
-            ev.Scp1344.Base.Status = Scp1344Status.Idle;
-            ev.Scp1344.Base.ServerDropItem(true);
-
-            ev.Player.DisableEffect(EffectType.Scp1344);
-            ev.Player.DisableEffect<Blindness>();
-            ev.Player.RemoveSCRAMBLEHint();
-
-            Log.Debug($"{ev.Player.Nickname} Deactivated Project SCRAMBLE");
         }
     }
 }

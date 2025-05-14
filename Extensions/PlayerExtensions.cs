@@ -64,13 +64,12 @@ namespace ProjectSCRAMBLE.Extensions
                 Log.Debug("Censor Schematic failed to spawn");
                 return;
             }
+            Censor.transform.parent = player.Transform;
 
             if (Plugin.Instance.Config.AttachCensorToHead)
             {
                 Methods.AttachCensorToHead(Censor, Head);
             }
-
-            Censor.transform.parent = player.Transform;
 
             Scp96sCencors.Add(player, Censor);
             Methods.RemoveForUnGlassesPlayer(Censor, player);

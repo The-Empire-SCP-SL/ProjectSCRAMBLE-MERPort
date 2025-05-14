@@ -1,4 +1,5 @@
 ﻿using System;
+using HarmonyLib;
 using Exiled.API.Features;
 using Exiled.CustomItems.API;
 
@@ -20,6 +21,7 @@ namespace ProjectSCRAMBLE
 
         public override Version RequiredExiledVersion { get; } = new Version(9, 6, 0);
 
+        private Harmony harmony;
         public override void OnEnabled()
         {
             Instance = this;
@@ -27,6 +29,9 @@ namespace ProjectSCRAMBLE
 
             Config.ProjectSCRAMBLE.Register();
             eventHandlers.Sucsribe();
+
+            harmony = new Harmony("ProjectSCRAMBLE" + DateTime.Now.Ticks);
+            harmony.PatchAll();
 
             base.OnEnabled();
         }
@@ -38,7 +43,10 @@ namespace ProjectSCRAMBLE
 
             eventHandlers = null;
             Instance = null;
+
+            harmony.UnpatchAll(harmonyID: "ProjectSCRAMBLE");
+
             base.OnDisabled();
-        }
+        } 
     }
 }

@@ -50,6 +50,9 @@ namespace ProjectSCRAMBLE
         {
             Timing.CallDelayed(1f, () => 
             {
+                if (player == null || player.IsDead)
+                    return;
+
                 player.SendFakeEffect(EffectType.Scp1344, 0); 
                 player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
             });

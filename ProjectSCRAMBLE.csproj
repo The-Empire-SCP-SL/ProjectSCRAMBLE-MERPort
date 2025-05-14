@@ -95,6 +95,10 @@
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Extensions\PlayerExtensions.cs" />
     <Compile Include="Methods\Methods.cs" />
+    <Compile Include="Patchs\BlockBadEffect.cs" />
+    <Compile Include="Patchs\BlockForceDrop.cs" />
+    <Compile Include="Patchs\SetWearOffTime.cs" />
+    <Compile Include="Patchs\SetWearingTime.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="ProjectSCRAMBLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +107,9 @@
   <ItemGroup>
     <PackageReference Include="ExMod.Exiled">
       <Version>9.6.0-beta8</Version>
+    </PackageReference>
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.3.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

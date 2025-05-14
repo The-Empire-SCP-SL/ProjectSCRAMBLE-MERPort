@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MEC;
+using UnityEngine;
 using PlayerRoles;
 using System.Linq;
 using Exiled.API.Enums;
@@ -45,7 +46,7 @@ namespace ProjectSCRAMBLE
             }
             else if (ev.Player.Role == RoleTypeId.Scp096)
             {
-                ev.Player.AddCensor();
+                Timing.CallDelayed(0.5f, () => ev.Player.AddCensor());
                 Log.Debug($"Scp96:{ev.Player.Nickname} added censor");
             }
         }

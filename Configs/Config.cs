@@ -18,11 +18,19 @@ namespace ProjectSCRAMBLE
 
         [Description("Attach to head or Directl attach to player")]
         public bool AttachCensorToHead { get; set; } = true;
-        public float AttachToHeadsyncInterval { get; set; } = 0.001f;
+
+        [Description("0.1 is good 0.01 better , 0.001 greater")]
+        public float AttachToHeadsyncInterval { get; set; } = 0.01f;
 
         [Description("Censor Schematic settings")]
         public string CensorSchematic { get; set; } = "Censormain";
-        public Vector3 CensorSchematicScale { get; set; } = Vector3.one;
+        public Vector3 CensorSchematicScale { get; set; } = new Vector3(0.5f, 0.5f , 0.5f);
+
+        [Description("Wearing time (default 5)")]
+        public float ActivateTime { get; set; } = 1f;
+
+        [Description("Removal time (default 5.1)")]
+        public float DeactivateTime { get; set; } = 1f;
 
         [Description("Custom item settings")]
         public ProjectSCRAMBLE ProjectSCRAMBLE { get; set; } = new ProjectSCRAMBLE();
@@ -31,11 +39,12 @@ namespace ProjectSCRAMBLE
         public Hints Hint { get; set; } = new Hints();
         public class Hints 
         {
-            public float XCordinate { get; set; } = 330;
-            public float YCordinate { get; set; } = 120;
+            public float XCordinate { get; set; } = 370;
+            public float YCordinate { get; set; } = 90;
             public int FontSize { get; set; } = 20;
+
+            [Description("0 = left , 1 = right, 2 = center")]
             public int Alligment { get; set; } = 0;
         }
-
     }
 }
