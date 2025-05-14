@@ -55,7 +55,7 @@ namespace ProjectSCRAMBLE
 
                 player.SendFakeEffect(EffectType.Scp1344, 0); 
 
-                if (Plugin.Instance.Config.SimulateTemporaryBlindness)
+                if (Plugin.Instance.Config.SimulateTemporaryDarkness)
                     player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
             });
         }
