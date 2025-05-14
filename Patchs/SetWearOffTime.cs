@@ -15,8 +15,6 @@ namespace ProjectSCRAMBLE.Patchs
         {
             List<CodeInstruction> NewCodes = ListPool<CodeInstruction>.Pool.Get(instructions);
 
-            LocalBuilder IsScramble = generator.DeclareLocal(typeof(bool));
-
             Label Skip = generator.DefineLabel();
             Label Skip2 = generator.DefineLabel();
 
