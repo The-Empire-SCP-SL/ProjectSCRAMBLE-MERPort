@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using InventorySystem.Items;
 using System.Reflection.Emit;
 using Exiled.API.Features.Pools;
 using System.Collections.Generic;
@@ -47,20 +46,6 @@ namespace ProjectSCRAMBLE.Patchs
                 yield return NewCodes[i];
 
             ListPool<CodeInstruction>.Pool.Return(NewCodes);
-        }
-    }
-    [HarmonyPatch(typeof(Scp1344Item), nameof(Scp1344Item.ProgressbarMax), MethodType.Getter)]
-    public static class ProggesBarChange
-    {
-        public static void Postfix(ItemBase __instance,ref float __result)
-        {
-            if (!Plugin.Instance.Config.ProjectSCRAMBLE.CanWearOff)
-                return;
-
-            if (!ProjectSCRAMBLE.SCRAMBLE.TrackedSerials.Contains(__instance.ItemSerial))
-                return;
-
-            __result = Plugin.Instance.Config.DeactivateTime;
         }
     }
 }

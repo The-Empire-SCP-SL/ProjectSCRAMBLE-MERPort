@@ -7,6 +7,8 @@ namespace ProjectSCRAMBLE
 {
     public class Plugin : Plugin<Config, Translation>
     {
+        private Harmony harmony;
+
         public static EventHandlers eventHandlers;
 
         public override string Author => "ZurnaSever";
@@ -21,7 +23,6 @@ namespace ProjectSCRAMBLE
 
         public override Version RequiredExiledVersion { get; } = new Version(9, 6, 0);
 
-        private Harmony harmony;
         public override void OnEnabled()
         {
             Instance = this;
@@ -38,14 +39,13 @@ namespace ProjectSCRAMBLE
 
         public override void OnDisabled()
         {
-            eventHandlers.UnSucsribe();
+            harmony.UnpatchAll(harmonyID: "ProjectSCRAMBLE");
+
             Config.ProjectSCRAMBLE.Unregister();
+            eventHandlers.UnSucsribe();
 
             eventHandlers = null;
             Instance = null;
-
-            harmony.UnpatchAll(harmonyID: "ProjectSCRAMBLE");
-
             base.OnDisabled();
         } 
     }

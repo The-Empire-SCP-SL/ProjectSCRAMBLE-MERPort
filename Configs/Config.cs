@@ -12,8 +12,13 @@ namespace ProjectSCRAMBLE
         [Description("Whether to remove the main 1344 effect when using SCRAMBLES")]
         public bool RemoveOrginal1344Effect { get; set; } = true;
 
+        [Description("If you remove the original effect, simulate the temporary darkness when wearing the glasses")]
+        public bool SimulateTemporaryDarkness { get; set; } = true;
+
         [Description("Whether the SCRAMBLES will use charge while blocking SCP-096 face")]
         public bool ScrambleCharge { get; set; } = true;
+
+        [Description("How much power should the SCRAMBLEs use to obfuscate 96's face? (1 = default, >1 = faster, <1 = slower)")]
         public float ChargeUsageMultiplayer { get; set; } = 1;
 
         [Description("Attach to head or Directl attach to player")]
@@ -22,8 +27,10 @@ namespace ProjectSCRAMBLE
         [Description("0.1 is good 0.01 better , 0.001 greater")]
         public float AttachToHeadsyncInterval { get; set; } = 0.01f;
 
-        [Description("Censor Schematic settings")]
+        [Description("Censor schematic name")]
         public string CensorSchematic { get; set; } = "Censormain";
+
+        [Description("Censor schematic scale")]
         public Vector3 CensorSchematicScale { get; set; } = new Vector3(0.5f, 0.5f , 0.5f);
 
         [Description("Wearing time (default 5)")]
