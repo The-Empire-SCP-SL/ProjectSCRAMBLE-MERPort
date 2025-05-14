@@ -13,7 +13,7 @@ Project SCRAMBLE was a project conducted by the SCP Foundation that aimed to cre
 
 1. Download the release file from the GitHub page [here](https://github.com/MS-crew/ProjectSCRAMBLE/releases).
 2. Extract the contents into your `\AppData\Roaming\EXILED\Plugins` directory.
-3. Download the Schematic file from the GitHub page [here](https://github.com/MS-crew/ProjectSCRAMBLE/releases).
+3. Download the Default Schematic file from the GitHub page [here](https://github.com/MS-crew/ProjectSCRAMBLE/releases).
 4. Extract the Schematic contents into your `\AppData\Roaming\SCP Secret Laboratory\LabAPI-Beta\configs\Yourport\ProjectMER\Schematics` directory.
 5. Restart your server to apply the changes.
 6. Configure the plugin according to your server’s needs using the provided settings.
@@ -44,7 +44,7 @@ charge_usage_multiplayer: 1
 # Attach to head or Directl attach to player
 attach_censor_to_head: true
 # 0.1 is okey, 0.01 better/good , 0.001 greater
-attach_to_headsync_interval: 0.00999999978
+attach_to_headsync_interval: 0.01
 # Censor schematic name
 censor_schematic: 'Censormain'
 # Censor schematic scale
