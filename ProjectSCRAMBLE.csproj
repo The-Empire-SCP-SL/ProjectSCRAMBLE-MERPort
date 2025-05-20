@@ -77,6 +77,7 @@
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Extensions\FloatExtension.cs" />
     <Compile Include="Extensions\PlayerExtensions.cs" />
+    <Compile Include="Extensions\SchematicExtensions.cs" />
     <Compile Include="Methods\Methods.cs" />
     <Compile Include="Patchs\BlockBadEffect.cs" />
     <Compile Include="Patchs\BlockForceDrop.cs" />

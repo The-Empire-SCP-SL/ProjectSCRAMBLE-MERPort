@@ -69,11 +69,11 @@ namespace ProjectSCRAMBLE.Extensions
 
             if (Plugin.Instance.Config.AttachCensorToHead)
             {
-                Methods.AttachCensorToHead(Censor, Head);
+                Censor.AttachToTransform(Head);
             }
 
             Scp96sCencors.Add(player, Censor);
-            Methods.RemoveForUnGlassesPlayer(Censor, player);
+            Censor.RemoveForUnGlassesPlayer(player);
         }
 
         public static void RemoveCensor(this Player player)
