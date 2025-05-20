@@ -56,8 +56,16 @@ namespace ProjectSCRAMBLE
             if (!ev.IsLooking || !ProjectSCRAMBLE.ActiveScramblePlayers.ContainsKey(ev.Target))
                 return;
 
+            bool shouldRandomError = Plugin.Instance.Config.RandomError && Random.Range(0f, 100f) <= Plugin.Instance.Config.RandomErrorChance;
+
             if (!Plugin.Instance.Config.ScrambleCharge)
             {
+                if (shouldRandomError)
+                {
+                    ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Error);
+                    return;
+                }
+
                 ev.IsAllowed = false;
                 return;
             }
@@ -91,7 +99,7 @@ namespace ProjectSCRAMBLE
             if (!ProjectSCRAMBLE.ScrambleCharges.TryGetValue(serial, out float charge))
             {
                 ProjectSCRAMBLE.ScrambleCharges[serial] = 100f;
-                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", Methods.FormatCharge(charge)));
+                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", charge.FormatCharge()));
                 ev.IsAllowed = false;
                 return;
             }
@@ -102,12 +110,17 @@ namespace ProjectSCRAMBLE
                 ev.Target.DeObfuscateScp96s();
                 return;
             }
-            else
-            {
-                ProjectSCRAMBLE.ScrambleCharges[serial] -= Time.deltaTime * Plugin.Instance.Config.ChargeUsageMultiplayer;
-                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", Methods.FormatCharge(charge)));
-            }
 
+            ProjectSCRAMBLE.ScrambleCharges[serial] -= Time.deltaTime * Plugin.Instance.Config.ChargeUsageMultiplayer;
+
+            if (shouldRandomError)
+            {
+                ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Error);
+                Timing.CallDelayed(0.5f , () => ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", charge.FormatCharge())));
+                return;
+            }
+            
+            ev.Target.AddSCRAMBLEHint(Plugin.Instance.Translation.Charge.Replace("{charge}", charge.FormatCharge()));
             ev.IsAllowed = false;
         }
 

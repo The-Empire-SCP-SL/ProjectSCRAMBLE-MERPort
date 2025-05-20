@@ -1,6 +1,5 @@
 ﻿using MEC;
 using UnityEngine;
-using Exiled.API.Enums;
 using Exiled.API.Features;
 using ProjectSCRAMBLE.Extensions;
 using System.Collections.Generic;
@@ -10,12 +9,10 @@ namespace ProjectSCRAMBLE
 {
     public class Methods
     {
-        public static string FormatCharge(float charge) => ((int)charge).ToString();
-
         public static void AttachCensorToHead(SchematicObject Censor , Transform Head)
         {
             foreach (var i in Censor.AdminToyBases)
-                i.syncInterval = 0; //maybe not necesary, probably not necesary
+                i.syncInterval = 0;
 
             Timing.RunCoroutine(TrackHead(Censor.transform, Head));
         }
@@ -46,18 +43,6 @@ namespace ProjectSCRAMBLE
             }
         }
 
-        public static void RemoveOrginalEffect(Player player) 
-        {
-            Timing.CallDelayed(1f, () => 
-            {
-                if (player == null || player.IsDead)
-                    return;
-
-                player.SendFakeEffect(EffectType.Scp1344, 0); 
-
-                if (Plugin.Instance.Config.SimulateTemporaryDarkness)
-                    player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
-            });
-        }
+        
     }
 }

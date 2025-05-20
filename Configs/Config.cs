@@ -15,6 +15,12 @@ namespace ProjectSCRAMBLE
         [Description("If you remove the original effect, simulate the temporary darkness when wearing the glasses")]
         public bool SimulateTemporaryDarkness { get; set; } = true;
 
+        [Description("Should there be a Random error in the artificial intelligence of the glasses?")]
+        public bool RandomError { get; set; } = true;
+
+        [Description("Random error chance")]
+        public float RandomErrorChance { get; set; } = 0.1f;
+
         [Description("Whether the SCRAMBLES will use charge while blocking SCP-096 face")]
         public bool ScrambleCharge { get; set; } = true;
 

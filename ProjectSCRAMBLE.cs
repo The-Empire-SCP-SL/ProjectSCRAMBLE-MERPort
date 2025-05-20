@@ -1,4 +1,6 @@
-﻿using Exiled.API.Features;
+﻿using MEC;
+using Exiled.API.Enums;
+using Exiled.API.Features;
 using YamlDotNet.Serialization;
 using Exiled.API.Features.Spawn;
 using ProjectSCRAMBLE.Extensions;
@@ -81,7 +83,7 @@ namespace ProjectSCRAMBLE
                 else if (charge <= 0f)
                 {
                     if (Plugin.Instance.Config.RemoveOrginal1344Effect) 
-                        Methods.RemoveOrginalEffect(ev.Player);
+                        RemoveOrginalEffect(ev.Player);
 
                     ev.Player.DeObfuscateScp96s();
                     ev.Player.AddSCRAMBLEHint(Plugin.Instance.Translation.OffCharge);
@@ -89,17 +91,31 @@ namespace ProjectSCRAMBLE
                     return;
                 }
 
-                string hint = Plugin.Instance.Translation.Charge.Replace("{charge}", Methods.FormatCharge(charge));
+                string hint = Plugin.Instance.Translation.Charge.Replace("{charge}", charge.FormatCharge());
                 ev.Player.AddSCRAMBLEHint(hint);
                 Log.Debug($"{ev.Player.Nickname}: SCRAMBLEs charge {charge}.");
             }
 
             if (Plugin.Instance.Config.RemoveOrginal1344Effect)
-                Methods.RemoveOrginalEffect(ev.Player);  
+                RemoveOrginalEffect(ev.Player);  
 
             ActiveScramblePlayers[ev.Player] = [];
             ev.Player.ObfuscateScp96s();
             Log.Debug($"{ev.Player.Nickname}: Activated Project SCRAMBLE");
+        }
+
+        private void RemoveOrginalEffect(Player player)
+        {
+            Timing.CallDelayed(1f, () =>
+            {
+                if (player == null || player.IsDead)
+                    return;
+
+                player.SendFakeEffect(EffectType.Scp1344, 0);
+
+                if (Plugin.Instance.Config.SimulateTemporaryDarkness)
+                    player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
+            });
         }
     }
 }

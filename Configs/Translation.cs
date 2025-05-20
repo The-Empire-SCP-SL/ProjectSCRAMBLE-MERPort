@@ -6,5 +6,6 @@ namespace ProjectSCRAMBLE
     {
         public string Charge { get; set; } = "<color=green>Project SCRAMBLE ACTIVE charge status: {charge}</color>";
         public string OffCharge { get; set; } = "<color=red>SCRAMBLE = ?? !WARNING!! CRITICIAL ERROR</color>";
+        public string Error { get; set; } = "<color=red>SCRAMBLE = ?? !WARNING!! CRITICIAL ERROR</color>";
     }
 }

@@ -64,6 +64,7 @@ namespace ProjectSCRAMBLE.Extensions
                 Log.Debug("Censor Schematic failed to spawn");
                 return;
             }
+
             Censor.transform.parent = player.Transform;
 
             if (Plugin.Instance.Config.AttachCensorToHead)
@@ -169,7 +170,7 @@ namespace ProjectSCRAMBLE.Extensions
                 const byte OperationId = (byte)SyncList<byte>.Operation.OP_SET;
 
                 StatusEffectBase foundEffect = effectOwner.GetEffect(effect);
-                uint index = (uint)effectOwner.ReferenceHub.playerEffectsController.GetEffectIndex(foundEffect);
+                uint index = (uint)effectOwner.GetEffectIndex(foundEffect);
                 if (index < 0)
                     return;
 
@@ -183,8 +184,9 @@ namespace ProjectSCRAMBLE.Extensions
             });
         }
 
-        private static int GetEffectIndex(this PlayerEffectsController controller, StatusEffectBase effect)
+        private static int GetEffectIndex(this Player player, StatusEffectBase effect)
         {
+            PlayerEffectsController controller = player.ReferenceHub.playerEffectsController;
             for (int i = 0; i < controller.EffectsLength; i++)
             {
                 if (ReferenceEquals(controller.AllEffects[i], effect))
