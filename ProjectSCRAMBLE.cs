@@ -45,8 +45,8 @@ namespace ProjectSCRAMBLE
 
         public override void Destroy()
         {
-            base.Destroy();
             SCRAMBLE = null;
+            base.Destroy();
         }
 
         protected override void SubscribeEvents()
