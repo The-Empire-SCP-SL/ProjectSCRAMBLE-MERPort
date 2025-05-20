@@ -16,10 +16,10 @@ namespace ProjectSCRAMBLE
         public bool SimulateTemporaryDarkness { get; set; } = true;
 
         [Description("Should there be a Random error in the artificial intelligence of the glasses?")]
-        public bool RandomError { get; set; } = true;
+        public bool RandomError { get; set; } = false;
 
         [Description("Random error chance")]
-        public float RandomErrorChance { get; set; } = 0.1f;
+        public float RandomErrorChance { get; set; } = 0.001f;
 
         [Description("Whether the SCRAMBLES will use charge while blocking SCP-096 face")]
         public bool ScrambleCharge { get; set; } = true;
