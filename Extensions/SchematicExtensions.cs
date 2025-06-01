@@ -1,4 +1,5 @@
 ﻿using MEC;
+using AdminToys;
 using UnityEngine;
 using Exiled.API.Features;
 using ProjectMER.Features.Objects;
@@ -9,8 +10,7 @@ namespace ProjectSCRAMBLE.Extensions
     {
         public static void AttachToTransform(this SchematicObject Censor, Transform Head)
         {
-            foreach (var i in Censor.AdminToyBases)
-                i.syncInterval = 0;
+            Censor.AdminToyBases[0].syncInterval = 0;
 
             Timing.RunCoroutine(Methods.TrackHead(Censor.transform, Head));
         }
