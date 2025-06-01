@@ -26,7 +26,7 @@ namespace ProjectSCRAMBLE.Extensions
             player.RemoveSCRAMBLEHint();
             HintServiceMeow.Core.Models.Hints.Hint newHint = new()
             {
-                Id = player.Id + "SCRAMBLE",
+                Id = "SCRAMBLE",
                 YCoordinate = Plugin.Instance.Config.Hint.YCordinate,
                 XCoordinate = Plugin.Instance.Config.Hint.XCordinate,
                 FontSize = Plugin.Instance.Config.Hint.FontSize,
@@ -40,8 +40,8 @@ namespace ProjectSCRAMBLE.Extensions
         public static void RemoveSCRAMBLEHint(this Player player)
         {
             PlayerDisplay pd = player.GetPlayerDisplay();
-            if (pd.GetHint(player.Id + "SCRAMBLE") != null)
-                pd.RemoveHint(player.Id + "SCRAMBLE");
+            if (pd.GetHint("SCRAMBLE") != null)
+                pd.RemoveHint("SCRAMBLE");
         }
 
         public static void AddCensor(this Player player)

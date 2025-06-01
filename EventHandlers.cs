@@ -126,17 +126,15 @@ namespace ProjectSCRAMBLE
 
         private void OnChangeEffect(ReceivingEffectEventArgs ev)
         {
+            if (ev.Effect.GetEffectType() != EffectType.Scp1344 || !ev.Effect.IsEnabled)
+                return;
+
+            ev.Player.RemoveSCRAMBLEHint();
+
             if (!ProjectSCRAMBLE.ActiveScramblePlayers.ContainsKey(ev.Player))
                 return;
 
-            if (ev.Effect.GetEffectType() != EffectType.Scp1344)
-                return;
-            
-            if (!ev.Effect.IsEnabled)
-                return;
-
             ev.Player.DeObfuscateScp96s();
-            ev.Player.RemoveSCRAMBLEHint();
             Log.Debug("Player wear-off Project SCRAMBLE");
         }
 
