@@ -6,11 +6,12 @@ using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Extensions;
 using ProjectSCRAMBLE.Extensions;
-using ProjectMER.Features.Objects;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp096;
 using Scp96Event = Exiled.Events.Handlers.Scp096;
 using PlayerEvent = Exiled.Events.Handlers.Player;
+using MapEditorReborn.API.Features.Objects;
+using MapEditorReborn.API.Extensions;
 
 namespace ProjectSCRAMBLE
 {
@@ -142,7 +143,7 @@ namespace ProjectSCRAMBLE
         {
             foreach (SchematicObject schmt in PlayerExtensions.Scp96sCencors.Values)
             {
-                ev.Player.DestroySchematic(schmt);
+                ev.Player.DestroySchematicNTW(schmt);
             }
         }
     }

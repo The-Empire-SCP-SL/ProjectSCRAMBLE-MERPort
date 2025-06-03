@@ -42,6 +42,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\HintServiceMeow-Exiled.dll</HintPath>
     </Reference>
+    <Reference Include="MapEditorReborn">
+      <HintPath>..\..\MapEditorReborn.dll</HintPath>
+    </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
@@ -49,9 +52,6 @@
     <Reference Include="Pooling, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Pooling.dll</HintPath>
-    </Reference>
-    <Reference Include="ProjectMER">
-      <HintPath>$(EXILED_REFERENCES)\ProjectMER.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

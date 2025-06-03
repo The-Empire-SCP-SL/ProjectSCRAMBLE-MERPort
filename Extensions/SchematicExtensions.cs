@@ -1,7 +1,8 @@
 ﻿using MEC;
 using UnityEngine;
 using Exiled.API.Features;
-using ProjectMER.Features.Objects;
+using MapEditorReborn.API.Features.Objects;
+using MapEditorReborn.API.Extensions;
 
 namespace ProjectSCRAMBLE.Extensions
 {

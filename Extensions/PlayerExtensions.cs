@@ -3,17 +3,17 @@ using UnityEngine;
 using PlayerRoles;
 using Exiled.API.Enums;
 using Utils.NonAllocLINQ;
-using ProjectMER.Features;
 using CustomPlayerEffects;
 using Exiled.API.Features;
 using Exiled.API.Extensions;
 using System.Collections.Generic;
-using ProjectMER.Features.Objects;
 using PlayerRoles.FirstPersonControl;
 using HintServiceMeow.Core.Utilities;
 using HintServiceMeow.Core.Extension;
 using PlayerRoles.PlayableScps.Scp096;
 using PlayerRoles.FirstPersonControl.Thirdperson;
+using MapEditorReborn.API.Features.Objects;
+using MapEditorReborn.API.Features;
 
 namespace ProjectSCRAMBLE.Extensions
 {
@@ -59,7 +59,9 @@ namespace ProjectSCRAMBLE.Extensions
             if (Scp96sCencors.ContainsKey(player))
                 player.RemoveCensor();
 
-            if (!ObjectSpawner.TrySpawnSchematic(Plugin.Instance.Config.CensorSchematic, Head.position, Head.rotation, Plugin.Instance.Config.CensorSchematicScale , out SchematicObject Censor))
+            var Censor = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.CensorSchematic, Head.position, Head.rotation, scale: new Vector3(0.5f, 0.5f, 0.5f), null);
+
+            if (!Censor)
             {
                 Log.Error("Censor Schematic failed to spawn");
                 return;
@@ -118,7 +120,7 @@ namespace ProjectSCRAMBLE.Extensions
                     continue;
 
                 Log.Debug($"{ply.Nickname} Obfuscate destroying for {player.Nickname} ");
-                player.DestroySchematic(Scp96sCencors[ply]);
+                player.DestroySchematicNTW(Scp96sCencors[ply]);
             }
 
             ProjectSCRAMBLE.ActiveScramblePlayers.Remove(player);
@@ -150,7 +152,7 @@ namespace ProjectSCRAMBLE.Extensions
             }
         }
 
-        public static void DestroySchematic(this Player player, SchematicObject schematic)
+        public static void DestroySchematicNTW(this Player player, SchematicObject schematic)
         {
             foreach (NetworkIdentity networkIdentity in schematic.NetworkIdentities)
             {
